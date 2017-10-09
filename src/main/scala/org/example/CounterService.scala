@@ -7,9 +7,9 @@ import akka.http.scaladsl.model.ws.{BinaryMessage, Message, TextMessage}
 import akka.http.scaladsl.server.Directives.{parameters, _}
 import akka.stream.scaladsl.{Flow, Source}
 
-object CounterService {
+class CounterService {
 
-  var counter = new AtomicLong(0);
+//  var counter = new AtomicLong(0);
 
   def wsGreeter: Flow[Message, Message, Any] =
     Flow[Message].mapConcat {
@@ -18,16 +18,19 @@ object CounterService {
       case bm: BinaryMessage => Nil
     }
 
-  def getCounter:String = {counter.incrementAndGet().toString}
-
+  def getCounter = "Test::"
   val route =
     pathPrefix("counter") {
       pathEnd {
         get {
-          complete(HttpResponse(StatusCodes.OK, entity = HttpEntity(ContentType(MediaTypes.`application/json`), getCounter)))
+          complete(HttpResponse(StatusCodes.OK, entity = getCounter))
         }
       }
-    } ~ path("wscounter") {
-      handleWebSocketMessages(wsGreeter)
+//    } ~ pathPrefix("wscounter") {
+//      pathEnd {
+//        get {
+//           handleWebSocketMessages(wsGreeter)
+//        }
+//      }
     }
 }
