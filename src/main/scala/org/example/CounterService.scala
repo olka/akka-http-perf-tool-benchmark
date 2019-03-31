@@ -18,7 +18,7 @@ object CounterService {
       case bm: BinaryMessage => Nil
     }
 
-  def getCounter:String = {counter.incrementAndGet().toString}
+  def getCounter:String = {counter.incrementAndGet().toString + " :: " + System.currentTimeMillis().toString}
 
   val route =
     pathPrefix("counter") {
@@ -29,5 +29,10 @@ object CounterService {
       }
     } ~ path("wscounter") {
       handleWebSocketMessages(wsGreeter)
-    }
+    } ~ path("clear") {
+      get {
+        counter.set(-1)
+        complete(HttpResponse(StatusCodes.OK, entity = HttpEntity(ContentType(MediaTypes.`application/json`), getCounter)))
+      }
+  }
 }
