@@ -24,7 +24,7 @@ object CounterService {
     pathPrefix("counter") {
       pathEnd {
         get {
-          complete(HttpResponse(StatusCodes.OK, entity = HttpEntity(ContentType(MediaTypes.`application/json`), getCounter)))
+          complete(HttpResponse(StatusCodes.OK, entity = getCounter))
         }
       }
     } ~ path("wscounter") {
