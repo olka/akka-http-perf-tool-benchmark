@@ -14,3 +14,10 @@ libraryDependencies ++= {
     "fr.davit" %% "akka-http-metrics-prometheus" % "0.2.1"
   )
 }
+
+ fork in run := true
+javaOptions  ++= Seq(
+	    "-Xmx2G", 
+	    "-XX:+AlwaysPreTouch",
+	    "-XX:StartFlightRecording=dumponexit=true"
+)
